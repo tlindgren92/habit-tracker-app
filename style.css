@@ -36,7 +36,7 @@ body{
 }
 .add-Button{
     padding: 8px 10px;
-    text-align: center;
+    /* text-align: center; */
     border-radius:6px;
     border:none;
     background-color: #AD8B73;
@@ -52,4 +52,8 @@ body{
 .habit-List{
     display: grid;
     justify-content: center;
+}
+.completed{
+    text-decoration:line-through;
+    opacity:0.6;
 }
