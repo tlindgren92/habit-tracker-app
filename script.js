@@ -4,54 +4,69 @@ let addButton=document.querySelector('.add-Button');
 
 let habitContainer=document.querySelector('.habit-List-container');
 
-addButton.addEventListener("click",()=>{
+//load the arary from localstorage if there or load the emplty array
+let habits = JSON.parse(localStorage.getItem("habits")) || [];
+
+//saves the habit in the localstorage
+function saveHabits() {
+    localStorage.setItem("habits", JSON.stringify(habits));
+}
+
+//creating the elements dynamically
+function renderHabits(){
+
+    habitContainer.innerHTML="";
+
+    habits.forEach((habit,index)=>{      
+        let newElement=document.createElement("div");
+        let text=document.createElement("span");
+        let deleteButton=document.createElement("button");
+
+        text.textContent=habit.text;
+        deleteButton.textContent="delete";
+
+        newElement.appendChild(text);
+        newElement.appendChild(deleteButton);
+        habitContainer.appendChild(newElement);
+
+        if(habit.completed){           
+            newElement.classList.add("completed");
+        }
+
+        newElement.addEventListener("click",()=>{
+            habits[index].completed=!habits[index].completed;
+            saveHabits();
+            renderHabits();
+        })
+
+        deleteButton.addEventListener("click",(e)=>{        
+            e.stopPropagation();
+            habits.splice(index,1) // removes 1 items starting at index
+            saveHabits();
+            renderHabits();          
+        })
+
+    })   
+}
+
+addButton.addEventListener("click",()=>{   
     
     //That is literally the text the user entered.
     //storing the inputValue;
     const inputClassValue=inputClass.value;
-
     if (inputClassValue.trim() ==="") {
         inputClass.value="";
         return
     };
-    //creating the value using js 
-    // let newHabitHTML=`<div>${inputClassValue}</div> `;
 
-    // habitContainer.innerHTML+=newHabitHTML;
-    // inputClass.value="";
-    
-
-    //using createElement method
-    let newElement=document.createElement("div");
-    let text=document.createElement("span");
-    let deleteButton=document.createElement("button");
-
-    //inserted the value
-    text.textContent=inputClassValue;
-    deleteButton.textContent="delete";
-
-    //append into habitcontainer
-    newElement.appendChild(text);
-    newElement.appendChild(deleteButton);
-    habitContainer.appendChild(newElement);
-
-    //when clicked,it will add class (complete) in the div
-    //when again clicked, it will remove the class(complete ) from the div
-    newElement.addEventListener("click",()=>{
-        // console.log("complete fuction run");
-        newElement.classList.toggle("completed");
-    })
-
-    //delete button funtion, click=remove that habit
-    //event bubbling happen here
-    deleteButton.addEventListener("click",(e)=>{        
-        e.stopPropagation();
-        deleteButton.parentElement.remove();              
-    })
-
+    //add the new habit into the array(habits)
+    habits.push({text:inputClassValue,completed:false});
+    saveHabits();
+    renderHabits();
+      
     //update the value inside input class after append
     inputClass.value="";
 
-    
-    
 });
+
+renderHabits();
