@@ -4,6 +4,8 @@ let addButton=document.querySelector('.add-Button');
 
 let habitContainer=document.querySelector('.habit-List-container');
 
+let habitCounter=document.querySelector('.habit-Counter')
+
 //load the arary from localstorage if there or load the emplty array
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
@@ -16,6 +18,9 @@ function saveHabits() {
 function renderHabits(){
 
     habitContainer.innerHTML="";
+
+    //count for habit counter
+    let count=0;
 
     habits.forEach((habit,index)=>{      
         let newElement=document.createElement("div");
@@ -46,12 +51,18 @@ function renderHabits(){
             renderHabits();          
         })
 
-    })   
+        //habit-Counter logic
+        if(habit.completed){
+            count++;
+        }
+    })  
+    
+    habitCounter.innerHTML=`${count}/${habits.length} completed`
 }
 
-addButton.addEventListener("click",()=>{   
-    
-    //That is literally the text the user entered.
+function addHabit(){
+
+     //That is literally the text the user entered.
     //storing the inputValue;
     const inputClassValue=inputClass.value;
     if (inputClassValue.trim() ==="") {
@@ -66,7 +77,17 @@ addButton.addEventListener("click",()=>{
       
     //update the value inside input class after append
     inputClass.value="";
+}
 
+addButton.addEventListener("click",()=>{   
+    addHabit();
+
+});
+
+inputClass.addEventListener("keydown",(e)=>{ 
+    if(e.key==="Enter"){
+        addHabit();
+    }
 });
 
 renderHabits();
