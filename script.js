@@ -6,6 +6,8 @@ let habitContainer=document.querySelector('.habit-List-container');
 
 let habitCounter=document.querySelector('.habit-Counter')
 
+let deleteAll=document.querySelector('.delete-All');
+
 //load the arary from localstorage if there or load the emplty array
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
@@ -16,7 +18,6 @@ function saveHabits() {
 
 //creating the elements dynamically
 function renderHabits(){
-
     habitContainer.innerHTML="";
 
     //count for habit counter
@@ -26,13 +27,17 @@ function renderHabits(){
         let newElement=document.createElement("div");
         let text=document.createElement("span");
         let deleteButton=document.createElement("button");
+        let editButton=document.createElement("button");
 
         text.textContent=habit.text;
         deleteButton.textContent="delete";
+        editButton.textContent="edit";
 
         newElement.appendChild(text);
-        newElement.appendChild(deleteButton);
+        newElement.appendChild(editButton);
+        newElement.appendChild(deleteButton);        
         habitContainer.appendChild(newElement);
+
 
         if(habit.completed){           
             newElement.classList.add("completed");
@@ -42,6 +47,28 @@ function renderHabits(){
             habits[index].completed=!habits[index].completed;
             saveHabits();
             renderHabits();
+        })
+
+        //editButton logic
+        editButton.addEventListener("click",(e)=>{
+            e.stopPropagation();
+            let tempInput=document.createElement("input");
+            tempInput.value=text.textContent;
+            text.replaceWith(tempInput);
+            //click
+            tempInput.addEventListener("click",(e)=>{
+                e.stopPropagation();
+            })
+            //enterkey
+            tempInput.addEventListener("keydown",(e)=>{
+                e.stopPropagation();
+                if(e.key==='Enter'){
+                    habits[index].text= tempInput.value;
+                    saveHabits();
+                    renderHabits();
+                }
+            })
+
         })
 
         deleteButton.addEventListener("click",(e)=>{        
@@ -89,5 +116,11 @@ inputClass.addEventListener("keydown",(e)=>{
         addHabit();
     }
 });
+
+deleteAll.addEventListener("click",()=>{
+    habits=[];
+    saveHabits();
+    renderHabits();
+})
 
 renderHabits();
