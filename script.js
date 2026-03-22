@@ -33,6 +33,14 @@ function renderHabits(){
         deleteButton.textContent="delete";
         editButton.textContent="edit";
 
+        //adding class 
+        newElement.classList.add("habit-Item");
+        text.classList.add("text-Class");
+        deleteButton.classList.add("delete-Button");
+        editButton.classList.add("edit-Button");
+        habitCounter.classList.add("habit-Counter");
+        deleteAll.classList.add("delete-All");
+
         newElement.appendChild(text);
         newElement.appendChild(editButton);
         newElement.appendChild(deleteButton);        
@@ -53,6 +61,7 @@ function renderHabits(){
         editButton.addEventListener("click",(e)=>{
             e.stopPropagation();
             let tempInput=document.createElement("input");
+            tempInput.classList.add("temp-Input-Class");
             tempInput.value=text.textContent;
             text.replaceWith(tempInput);
             //click

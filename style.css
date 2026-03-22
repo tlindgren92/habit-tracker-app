@@ -26,15 +26,14 @@ body{
     margin-bottom: 15px;
 
 }
-.input-Class{
+.input-Class,.temp-Input-Class{
     flex:1; 
     padding: 5px;
     text-align: center;
     border-radius: 6px;
     border: 2px solid #AD8B73;
-
 }
-.add-Button{
+.add-Button,.delete-Button,.edit-Button,.delete-All{
     padding: 8px 10px;
     /* text-align: center; */
     border-radius:6px;
@@ -53,7 +52,48 @@ body{
     display: grid;
     justify-content: center;
 }
+.habit-List-Text{
+    display: flex;
+    justify-content: center;
+}
 .completed{
     text-decoration:line-through;
     opacity:0.6;
+}
+.habit-Item{
+    background-color: #F5E6D0 ;
+    padding: 7px;
+    border-radius: 6px;
+    display:flex ;
+    justify-content: space-between;
+    margin-bottom:3px;
+}
+
+.edit-Button:hover{
+    background-color: #4CAF50;
+    color: white;
+}
+.delete-Button:hover{
+    background-color: #e82424;
+    color: white;
+}
+.text-Class{
+   flex:1; 
+}
+.delete-All:hover{
+    background-color: #eb0101;
+    color: white;
+}
+.habit-Counter{
+    display: flex;
+    justify-content: center;
+    padding: 7px;
+    background-color: #f3e5d0;
+    border-radius: 6px;
+    color: #0d120e;
+    font-size:1.3rem;
+    font-weight: bold;
+}
+.edit-Button,.temp-Input-Class{
+    margin-right:1.6px;
 }
